@@ -2,23 +2,14 @@ package uk.co.breadhub.proxyserver.Utils.configuration.file;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
 import org.apache.commons.lang3.Validate;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.co.breadhub.proxyserver.Utils.configuration.Configuration;
 import uk.co.breadhub.proxyserver.Utils.configuration.InvalidConfigurationException;
 import uk.co.breadhub.proxyserver.Utils.configuration.MemoryConfiguration;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.co.breadhub.proxyserver.Utils.configuration.InvalidConfigurationException;
+
+import java.io.*;
 
 /**
  * This is a base class for all File based implementations of {@link
@@ -37,7 +28,8 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * Creates an empty {@link uk.co.breadhub.proxyserver.Utils.configuration.file.FileConfiguration} using the specified {@link
      * uk.co.breadhub.proxyserver.Utils.configuration.Configuration} as a source for all default values.
      *
-     * @param defaults Default value provider
+     * @param defaults
+     *         Default value provider
      */
     public FileConfiguration(@Nullable Configuration defaults) {
         super(defaults);
@@ -53,10 +45,14 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * This method will save using the system default encoding, or possibly
      * using UTF8.
      *
-     * @param file File to save to.
-     * @throws java.io.IOException Thrown when the given file cannot be written to for
-     *     any reason.
-     * @throws IllegalArgumentException Thrown when file is null.
+     * @param file
+     *         File to save to.
+     *
+     * @throws java.io.IOException
+     *         Thrown when the given file cannot be written to for
+     *         any reason.
+     * @throws IllegalArgumentException
+     *         Thrown when file is null.
      */
     public void save(@NotNull File file) throws IOException {
         Validate.notNull(file, "File cannot be null");
@@ -84,10 +80,14 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * This method will save using the system default encoding, or possibly
      * using UTF8.
      *
-     * @param file File to save to.
-     * @throws java.io.IOException Thrown when the given file cannot be written to for
-     *     any reason.
-     * @throws IllegalArgumentException Thrown when file is null.
+     * @param file
+     *         File to save to.
+     *
+     * @throws java.io.IOException
+     *         Thrown when the given file cannot be written to for
+     *         any reason.
+     * @throws IllegalArgumentException
+     *         Thrown when file is null.
      */
     public void save(@NotNull String file) throws IOException {
         Validate.notNull(file, "File cannot be null");
@@ -113,13 +113,19 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * If the file cannot be loaded for any reason, an exception will be
      * thrown.
      *
-     * @param file File to load from.
-     * @throws java.io.FileNotFoundException Thrown when the given file cannot be
-     *     opened.
-     * @throws java.io.IOException Thrown when the given file cannot be read.
-     * @throws uk.co.breadhub.proxyserver.Utils.configuration.InvalidConfigurationException Thrown when the given file is not
-     *     a valid Configuration.
-     * @throws IllegalArgumentException Thrown when file is null.
+     * @param file
+     *         File to load from.
+     *
+     * @throws java.io.FileNotFoundException
+     *         Thrown when the given file cannot be
+     *         opened.
+     * @throws java.io.IOException
+     *         Thrown when the given file cannot be read.
+     * @throws uk.co.breadhub.proxyserver.Utils.configuration.InvalidConfigurationException
+     *         Thrown when the given file is not
+     *         a valid Configuration.
+     * @throws IllegalArgumentException
+     *         Thrown when file is null.
      */
     public void load(@NotNull File file) throws FileNotFoundException, IOException, InvalidConfigurationException {
         Validate.notNull(file, "File cannot be null");
@@ -136,11 +142,16 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * leaving only settings and defaults, and the new values will be loaded
      * from the given stream.
      *
-     * @param reader the reader to load from
-     * @throws java.io.IOException thrown when underlying reader throws an IOException
-     * @throws uk.co.breadhub.proxyserver.Utils.configuration.InvalidConfigurationException thrown when the reader does not
-     *      represent a valid Configuration
-     * @throws IllegalArgumentException thrown when reader is null
+     * @param reader
+     *         the reader to load from
+     *
+     * @throws java.io.IOException
+     *         thrown when underlying reader throws an IOException
+     * @throws uk.co.breadhub.proxyserver.Utils.configuration.InvalidConfigurationException
+     *         thrown when the reader does not
+     *         represent a valid Configuration
+     * @throws IllegalArgumentException
+     *         thrown when reader is null
      */
     public void load(@NotNull Reader reader) throws IOException, InvalidConfigurationException {
         BufferedReader input = reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
@@ -171,13 +182,19 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * If the file cannot be loaded for any reason, an exception will be
      * thrown.
      *
-     * @param file File to load from.
-     * @throws java.io.FileNotFoundException Thrown when the given file cannot be
-     *     opened.
-     * @throws java.io.IOException Thrown when the given file cannot be read.
-     * @throws uk.co.breadhub.proxyserver.Utils.configuration.InvalidConfigurationException Thrown when the given file is not
-     *     a valid Configuration.
-     * @throws IllegalArgumentException Thrown when file is null.
+     * @param file
+     *         File to load from.
+     *
+     * @throws java.io.FileNotFoundException
+     *         Thrown when the given file cannot be
+     *         opened.
+     * @throws java.io.IOException
+     *         Thrown when the given file cannot be read.
+     * @throws uk.co.breadhub.proxyserver.Utils.configuration.InvalidConfigurationException
+     *         Thrown when the given file is not
+     *         a valid Configuration.
+     * @throws IllegalArgumentException
+     *         Thrown when file is null.
      */
     public void load(@NotNull String file) throws FileNotFoundException, IOException, InvalidConfigurationException {
         Validate.notNull(file, "File cannot be null");
@@ -195,12 +212,16 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * <p>
      * If the string is invalid in any way, an exception will be thrown.
      *
-     * @param contents Contents of a Configuration to load.
-     * @throws uk.co.breadhub.proxyserver.Utils.configuration.InvalidConfigurationException Thrown if the specified string is
-     *     invalid.
-     * @throws IllegalArgumentException Thrown if contents is null.
+     * @param contents
+     *         Contents of a Configuration to load.
+     *
+     * @throws uk.co.breadhub.proxyserver.Utils.configuration.InvalidConfigurationException
+     *         Thrown if the specified string is
+     *         invalid.
+     * @throws IllegalArgumentException
+     *         Thrown if contents is null.
      */
-    public abstract void loadFromString(@NotNull String contents) throws InvalidConfigurationException, InvalidConfigurationException;
+    public abstract void loadFromString(@NotNull String contents) throws InvalidConfigurationException;
 
     /**
      * Compiles the header for this {@link uk.co.breadhub.proxyserver.Utils.configuration.file.FileConfiguration} and returns the

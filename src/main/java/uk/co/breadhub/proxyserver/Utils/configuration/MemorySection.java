@@ -8,7 +8,6 @@ import uk.co.breadhub.proxyserver.Utils.configuration.serialization.Configuratio
 import java.util.*;
 
 import static jdk.nashorn.internal.runtime.JSType.toLong;
-import static org.apache.commons.lang3.math.NumberUtils.toDouble;
 
 /**
  * A type of {@link ConfigurationSection} that is stored in memory.
@@ -66,6 +65,72 @@ public class MemorySection implements ConfigurationSection {
         Validate.notNull(root, "Path cannot be orphaned");
 
         this.fullPath = createPath(parent, path);
+    }
+
+    /**
+     * Creates a full path to the given {@link ConfigurationSection} from its
+     * root {@link Configuration}.
+     * <p>
+     * You may use this method for any given {@link ConfigurationSection}, not
+     * only {@link uk.co.breadhub.proxyserver.Utils.configuration.MemorySection}.
+     *
+     * @param section
+     *         Section to create a path for.
+     * @param key
+     *         Name of the specified section.
+     *
+     * @return Full path of the section from its root.
+     */
+    @NotNull
+    public static String createPath(@NotNull ConfigurationSection section, @Nullable String key) {
+        return createPath(section, key, (section == null) ? null : section.getRoot());
+    }
+
+    /**
+     * Creates a relative path to the given {@link ConfigurationSection} from
+     * the given relative section.
+     * <p>
+     * You may use this method for any given {@link ConfigurationSection}, not
+     * only {@link uk.co.breadhub.proxyserver.Utils.configuration.MemorySection}.
+     *
+     * @param section
+     *         Section to create a path for.
+     * @param key
+     *         Name of the specified section.
+     * @param relativeTo
+     *         Section to create the path relative to.
+     *
+     * @return Full path of the section from its root.
+     */
+    @NotNull
+    public static String createPath(@NotNull ConfigurationSection section, @Nullable String key, @Nullable ConfigurationSection relativeTo) {
+        Validate.notNull(section, "Cannot create path without a section");
+        Configuration root = section.getRoot();
+        if (root == null) {
+            throw new IllegalStateException("Cannot create path without a root");
+        }
+        char separator = root.options().pathSeparator();
+
+        StringBuilder builder = new StringBuilder();
+        if (section != null) {
+            for (ConfigurationSection parent = section; (parent != null) && (parent != relativeTo); parent = parent.getParent()) {
+                if (builder.length() > 0) {
+                    builder.insert(0, separator);
+                }
+
+                builder.insert(0, parent.getName());
+            }
+        }
+
+        if ((key != null) && (key.length() > 0)) {
+            if (builder.length() > 0) {
+                builder.append(separator);
+            }
+
+            builder.append(key);
+        }
+
+        return builder.toString();
     }
 
     @Override
@@ -829,72 +894,6 @@ public class MemorySection implements ConfigurationSection {
                 output.put(createPath(section, entry.getKey(), this), entry.getValue());
             }
         }
-    }
-
-    /**
-     * Creates a full path to the given {@link ConfigurationSection} from its
-     * root {@link Configuration}.
-     * <p>
-     * You may use this method for any given {@link ConfigurationSection}, not
-     * only {@link uk.co.breadhub.proxyserver.Utils.configuration.MemorySection}.
-     *
-     * @param section
-     *         Section to create a path for.
-     * @param key
-     *         Name of the specified section.
-     *
-     * @return Full path of the section from its root.
-     */
-    @NotNull
-    public static String createPath(@NotNull ConfigurationSection section, @Nullable String key) {
-        return createPath(section, key, (section == null) ? null : section.getRoot());
-    }
-
-    /**
-     * Creates a relative path to the given {@link ConfigurationSection} from
-     * the given relative section.
-     * <p>
-     * You may use this method for any given {@link ConfigurationSection}, not
-     * only {@link uk.co.breadhub.proxyserver.Utils.configuration.MemorySection}.
-     *
-     * @param section
-     *         Section to create a path for.
-     * @param key
-     *         Name of the specified section.
-     * @param relativeTo
-     *         Section to create the path relative to.
-     *
-     * @return Full path of the section from its root.
-     */
-    @NotNull
-    public static String createPath(@NotNull ConfigurationSection section, @Nullable String key, @Nullable ConfigurationSection relativeTo) {
-        Validate.notNull(section, "Cannot create path without a section");
-        Configuration root = section.getRoot();
-        if (root == null) {
-            throw new IllegalStateException("Cannot create path without a root");
-        }
-        char separator = root.options().pathSeparator();
-
-        StringBuilder builder = new StringBuilder();
-        if (section != null) {
-            for (ConfigurationSection parent = section; (parent != null) && (parent != relativeTo); parent = parent.getParent()) {
-                if (builder.length() > 0) {
-                    builder.insert(0, separator);
-                }
-
-                builder.insert(0, parent.getName());
-            }
-        }
-
-        if ((key != null) && (key.length() > 0)) {
-            if (builder.length() > 0) {
-                builder.append(separator);
-            }
-
-            builder.append(key);
-        }
-
-        return builder.toString();
     }
 
     @Override

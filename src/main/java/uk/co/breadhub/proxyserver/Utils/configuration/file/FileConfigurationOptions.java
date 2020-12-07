@@ -1,9 +1,9 @@
 package uk.co.breadhub.proxyserver.Utils.configuration.file;
 
-import uk.co.breadhub.proxyserver.Utils.configuration.MemoryConfiguration;
-import uk.co.breadhub.proxyserver.Utils.configuration.MemoryConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.co.breadhub.proxyserver.Utils.configuration.MemoryConfiguration;
+import uk.co.breadhub.proxyserver.Utils.configuration.MemoryConfigurationOptions;
 
 /**
  * Various settings for controlling the input and output of a {@link
@@ -68,7 +68,9 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * Null is a valid value which will indicate that no header is to be
      * applied.
      *
-     * @param value New header
+     * @param value
+     *         New header
+     *
      * @return This object, for chaining
      */
     @NotNull
@@ -115,7 +117,9 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * <p>
      * Defaults to true.
      *
-     * @param value Whether or not to copy the header
+     * @param value
+     *         Whether or not to copy the header
+     *
      * @return This object, for chaining
      */
     @NotNull

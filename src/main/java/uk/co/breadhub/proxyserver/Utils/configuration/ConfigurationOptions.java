@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
  * Configuration}
  */
 public class ConfigurationOptions {
+    private final Configuration configuration;
     private char pathSeparator = '.';
     private boolean copyDefaults = false;
-    private final Configuration configuration;
 
     protected ConfigurationOptions(@NotNull Configuration configuration) {
         this.configuration = configuration;
@@ -45,7 +45,9 @@ public class ConfigurationOptions {
      * This value does not affect how the {@link Configuration} is stored,
      * only in how you access the data. The default value is '.'.
      *
-     * @param value Path separator
+     * @param value
+     *         Path separator
+     *
      * @return This object, for chaining
      */
     @NotNull
@@ -84,7 +86,9 @@ public class ConfigurationOptions {
      * ConfigurationSection#isSet(String)}. The default value is
      * false.
      *
-     * @param value Whether or not defaults are directly copied
+     * @param value
+     *         Whether or not defaults are directly copied
+     *
      * @return This object, for chaining
      */
     @NotNull

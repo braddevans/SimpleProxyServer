@@ -1,9 +1,10 @@
 package uk.co.breadhub.proxyserver.Utils.configuration;
 
-import java.util.Map;
 import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Map;
 
 /**
  * This is a {@link Configuration} implementation that does not save or load
@@ -17,14 +18,18 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
     /**
      * Creates an empty {@link uk.co.breadhub.proxyserver.Utils.configuration.MemoryConfiguration} with no default values.
      */
-    public MemoryConfiguration() {}
+    public MemoryConfiguration() {
+    }
 
     /**
      * Creates an empty {@link uk.co.breadhub.proxyserver.Utils.configuration.MemoryConfiguration} using the specified {@link
      * Configuration} as a source for all default values.
      *
-     * @param defaults Default value provider
-     * @throws IllegalArgumentException Thrown if defaults is null
+     * @param defaults
+     *         Default value provider
+     *
+     * @throws IllegalArgumentException
+     *         Thrown if defaults is null
      */
     public MemoryConfiguration(@Nullable Configuration defaults) {
         this.defaults = defaults;
@@ -58,16 +63,16 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
     }
 
     @Override
+    @Nullable
+    public Configuration getDefaults() {
+        return defaults;
+    }
+
+    @Override
     public void setDefaults(@NotNull Configuration defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
         this.defaults = defaults;
-    }
-
-    @Override
-    @Nullable
-    public Configuration getDefaults() {
-        return defaults;
     }
 
     @Nullable

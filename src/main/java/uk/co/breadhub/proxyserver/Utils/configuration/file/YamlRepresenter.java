@@ -1,13 +1,14 @@
 package uk.co.breadhub.proxyserver.Utils.configuration.file;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Representer;
 import uk.co.breadhub.proxyserver.Utils.configuration.ConfigurationSection;
 import uk.co.breadhub.proxyserver.Utils.configuration.serialization.ConfigurationSerializable;
 import uk.co.breadhub.proxyserver.Utils.configuration.serialization.ConfigurationSerialization;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class YamlRepresenter extends Representer {
 
