@@ -1,0 +1,2 @@
+Servers:
+  test: !!uk.co.breadhub.proxyserver.entities.Server {host: pornhub.local, remotePort: 25565}

@@ -1,0 +1,49 @@
+plugins {
+    id 'java'
+    id 'net.nemerosa.versioning' version '2.6.1'
+}
+
+group 'uk.co.breadhub'
+version '1.0-SNAPSHOT'
+
+repositories {
+    maven { url 'https://jitpack.io' }
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'commons-io:commons-io:2.6'
+    compile 'org.yaml:snakeyaml:1.27'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+    compile group: 'com.google.guava', name: 'guava', version: '30.0-jre'
+    compile 'org.jetbrains:annotations:16.0.2'
+    compile 'commons-validator:commons-validator:1.7'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    from sourceSets.main.output
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    manifest {
+        attributes(
+                'Built-By'       : System.properties['user.name'],
+                'Build-Timestamp': new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+                'Build-Revision' : versioning.info.commit,
+                'Created-By'     : "Gradle ${gradle.gradleVersion}",
+                'Build-Jdk'      : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+                'Build-OS'       : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}",
+                'Main-Class'     : "uk.co.breadhub.proxyserver.ProxyServer"
+        )
+    }
+}
